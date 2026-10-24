@@ -97,21 +97,20 @@ const deleteTask = function () {
   ul.removeChild(listItem);
 };
 
-//Mark task completed
-const taskCompleted = function () {
-  //Append the task list item to the #completed-tasks
-  const listItem = this.parentNode;
-  completedTasksHolder.appendChild(listItem);
-  bindTaskEvents(listItem, taskIncomplete);
+// Move a task to the specified list and update its event handlers.
+const moveTask = function (listItem, destination, checkBoxEventHandler) {
+  destination.appendChild(listItem);
+  bindTaskEvents(listItem, checkBoxEventHandler);
 };
 
+// Move a checked task to the Completed list.
+const taskCompleted = function () {
+  moveTask(this.parentNode, completedTasksHolder, taskIncomplete);
+};
+
+// Move an unchecked task back to the Todo list.
 const taskIncomplete = function () {
-  //Mark task as incomplete.
-  //When the checkbox is unchecked
-  //Append the task list item to the #incompleteTasks.
-  const listItem = this.parentNode;
-  incompleteTaskHolder.appendChild(listItem);
-  bindTaskEvents(listItem, taskCompleted);
+  moveTask(this.parentNode, incompleteTaskHolder, taskCompleted);
 };
 
 //The glue to hold it all together.
