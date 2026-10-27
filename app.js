@@ -3,36 +3,47 @@ const addButton = document.getElementsByTagName('button')[0];
 const incompleteTasksList = document.getElementById('incomplete-tasks');
 const completedTasksList = document.getElementById('completed-tasks');
 
+const createElement = function (tagName, options = {}) {
+  const element = document.createElement(tagName);
+  if (options.type) element.type = options.type;
+  if (options.className) element.className = options.className;
+  if (options.text !== undefined) element.textContent = options.text;
+  if (options.src) element.src = options.src;
+  return element;
+};
+
 const createNewTaskElement = function (taskText) {
   const taskElement = document.createElement('li');
 
-  const checkbox = document.createElement('input');
-  const label = document.createElement('label');
-  const editInput = document.createElement('input');
-  const editButton = document.createElement('button');
+  const checkbox = createElement('input', {
+    type: 'checkbox',
+  });
 
-  const deleteButton = document.createElement('button');
-  const deleteButtonImage = document.createElement('img');
+  const label = createElement('label', {
+    className: 'task-text',
+    text: taskText,
+  });
 
-  label.innerText = taskText;
-  label.className = 'task-text';
+  const editInput = createElement('input', {
+    type: 'text',
+    className: 'task-text',
+  });
 
-  checkbox.type = 'checkbox';
-  editInput.type = 'text';
-  editInput.className = 'task-text';
+  const editButton = createElement('button', {
+    className: 'edit-button',
+    text: 'Edit',
+  });
 
-  editButton.innerText = 'Edit';
-  editButton.className = 'edit-button';
+  const deleteButton = createElement('button', {
+    className: 'delete-button',
+  });
 
-  deleteButton.className = 'delete-button';
-  deleteButtonImage.src = './remove.svg';
+  const deleteButtonImage = createElement('img', {
+    src: './remove.svg',
+  });
+
   deleteButton.appendChild(deleteButtonImage);
-
-  taskElement.appendChild(checkbox);
-  taskElement.appendChild(label);
-  taskElement.appendChild(editInput);
-  taskElement.appendChild(editButton);
-  taskElement.appendChild(deleteButton);
+  taskElement.append(checkbox, label, editInput, editButton, deleteButton);
   return taskElement;
 };
 
